@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('Deploy to EC2') {
+            steps {
+                // Start the SSH agent and provide the credentials ID configured in Jenkins
+                script {
+                    sshagent(credentials: ['ec2-user']) {
+                        // Your deployment steps here
+                        sh 'ssh -o StrictHostKeyChecking=no 54.236.26.48 "echo Hello, World!"'
+                    }
+                }
+            }
+        }
+    }
+}
