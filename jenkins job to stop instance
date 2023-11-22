@@ -1,0 +1,17 @@
+pipeline {
+    agent any
+
+    environment {
+        INSTANCE_ID = 'i-062b3b023cfed98d8'
+    }
+
+    stages {
+        stage('Stop EC2 Instance') {
+            steps {
+                script {
+                    sh "aws ec2 stop-instances --instance-ids ${INSTANCE_ID}"
+                }
+            }
+        }
+    }
+}
