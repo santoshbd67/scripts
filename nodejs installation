@@ -1,0 +1,7 @@
+sudo yum update -y
+sudo yum install -y nodejs
+node -v
+npm -v
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.38.0/install.sh | bash
+nvm install node
+nvm use node
