@@ -1,0 +1,56 @@
+import boto3
+import datetime
+
+ec2 = boto3.client('ec2')
+
+def lambda_handler(event, context):
+    try:
+        # Describe instances with a tag named 'Backup' set to 'true'
+        instances = ec2.describe_instances(
+            Filters=[
+                {'Name': 'tag:Backup', 'Values': ['true']}
+            ]
+        ).get('Reservations', [])
+
+        instances = sum(
+            [
+                [i for i in r['Instances']]
+                for r in instances
+            ], [])
+
+        print(f'Found {len(instances)} instances to backup.')
+
+        for instance in instances:
+            instance_id = instance['InstanceId']
+            instance_name = [tag['Value'] for tag in instance['Tags'] if tag['Key'] == 'Name'][0]
+            create_time = datetime.datetime.now().strftime('%Y-%m-%d_%H-%M-%S')
+            ami_name = f"{instance_name}_Backup_{create_time}"
+
+            print(f'Creating AMI {ami_name} for instance {instance_id}')
+
+            # Create AMI for the instance
+            create_image_response = ec2.create_image(
+                InstanceId=instance_id,
+                Name=ami_name,
+                NoReboot=True
+            )
+
+            image_id = create_image_response['ImageId']
+
+            # Tag the created AMI
+            ec2.create_tags(
+                Resources=[image_id],
+                Tags=[
+                    {'Key': 'Name', 'Value': ami_name},
+                    {'Key': 'Backup', 'Value': 'true'},
+                    {'Key': 'InstanceId', 'Value': instance_id}
+                ]
+            )
+
+            print(f'AMI {ami_name} created successfully.')
+
+        return {'statusCode': 200, 'body': 'Backup process completed successfully.'}
+
+    except Exception as e:
+        print(f'Error: {str(e)}')
+        return {'statusCode': 500, 'body': 'Error during backup process.'}
