@@ -6,7 +6,7 @@ pipeline {
             steps {
                 // Define the Git repository URL
                 script {
-                    git 'https://github.com/your-username/your-repository.git'
+                    git 'https://github.com/santoshbd67/scripts.git'
                 }
             }
         }
