@@ -1,1 +1,2 @@
-#on server side
+#ON SERVER SIDE
+sudo apt install nfs-kernel-server
