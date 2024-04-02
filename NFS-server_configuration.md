@@ -1,6 +1,6 @@
 # ON SERVER SIDE
-. sudo apt update
-. sudo apt install nfs-kernel-server
+sudo apt update
+sudo apt install nfs-kernel-server
 sudo mkdir /srv/nfs_share
 sudo nano /etc/exports
 /srv/nfs_share  <client_ip>(rw,sync,no_subtree_check)
