@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# Update package lists and install dependencies
+apt update
+apt install -y unzip
+
+# Download CloudWatch agent installation package
+wget https://s3.amazonaws.com/amazoncloudwatch-agent/ubuntu/amd64/latest/amazon-cloudwatch-agent.deb
+
+# Install the CloudWatch agent package
+dpkg -i amazon-cloudwatch-agent.deb
+
+# Start the CloudWatch agent service
+systemctl start amazon-cloudwatch-agent
+
+# Enable the CloudWatch agent service to start on boot
+systemctl enable amazon-cloudwatch-agent
+
+# Configure the CloudWatch agent
+cat <<EOF > /opt/aws/amazon-cloudwatch-agent/etc/amazon-cloudwatch-agent.json
+{
+  "agent": {
+    "metrics_collection_interval": 60,
+    "run_as_user": "cwagent"
+  },
+  "metrics": {
+    "append_dimensions": {
+      "InstanceId": "\${aws:InstanceId}"
+    },
+    "metrics_collected": {
+      "mem": {
+        "measurement": [
+          "mem_used_percent"
+        ],
+        "metrics_collection_interval": 60
+      }
+    }
+  }
+}
+EOF
+
+# Restart the CloudWatch agent to apply the configuration changes
+systemctl restart amazon-cloudwatch-agent
