@@ -38,24 +38,23 @@ This guide will walk you through the steps to deploy a two-tier WordPress applic
 3. Install php and required packages: `sudo apt install -y php libapache2-mod-php php-mysql  php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip`.
 4. Create Virtual Host for website:
   - ```sudo mkdir /var/www/wordpress```
-  - `sudo chown -R $USER:$USER /var/www/your_domain`
-  - Create the configuration file for your domain `sudo nano /etc/apache2/sites-available/your_domain.conf`.
+  - `sudo chown -R $USER:$USER /var/www/wordpress`
+  - Create the configuration file for your domain `sudo nano /etc/apache2/sites-available/wordpress.conf`.
   - Paste this configuration, and modify the required values
   ```
   <VirtualHost *:80>
-      ServerName your_domain
-      ServerAlias www.your_domain 
-      ServerAdmin webmaster@localhost
-      DocumentRoot /var/www/your_domain
-      ErrorLog ${APACHE_LOG_DIR}/error.log
-      CustomLog ${APACHE_LOG_DIR}/access.log combined
-      <Directory /var/www/your_domain>
-        AllowOverride All
-      </Directory>
-  </VirtualHost>
+    ServerName 3.80.39.142 # public of your server
+    ServerAdmin webmaster@localhost
+    DocumentRoot /var/www/wordpress
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+    <Directory /var/www/wordpress>
+      AllowOverride All
+    </Directory>
+</VirtualHost>
 ```
   - Press `Ctrl+O` and `Enter` to save, and `Ctrl+X` to exit.
-  - Enable our site using `sudo a2ensite your_domain`.
+  - Enable our site using `sudo a2ensite wordpress`.
   - (optional) disable the default apache site using `sudo a2dissite 000-default`.
   - Enable the rewrite module to be able to use Wordpress permalink feature `sudo a2enmod rewrite`.
   - Make sure the configuration is correct `sudo apache2ctl configtest`.
@@ -80,8 +79,8 @@ This guide will walk you through the steps to deploy a two-tier WordPress applic
 7. Adjust the ownership of the directory and their folders and files
 ```
 sudo chown -R www-data:www-data /var/www/your_domain
-sudo find /var/www/your_domain/ -type d -exec chmod 750 {} \;
-sudo find /var/www/your_domain/ -type f -exec chmod 640 {} \;
+sudo find /var/www/wordpress/ -type d -exec chmod 750 {} \;
+sudo find /var/www/wordpress/ -type f -exec chmod 640 {} \;
 ```
 8. Now your website should be available on specified domain
 
