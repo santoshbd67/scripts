@@ -88,5 +88,10 @@ sudo find /var/www/wordpress/ -type f -exec chmod 640 {} \;
 
 1. Install Certbot `sudo apt install certbot python3-certbot-apache`.
 2. Run certbot and provide all the required options `sudo certbot --apache`.
+![3tet](https://github.com/santoshbd67/scripts/assets/150413783/820f39b9-0cb9-4846-afbd-9951d2f368fc)
 
 > Congratulations! You've successfully deployed a two-tier WordPress application on Ubuntu 22 using AWS EC2 and RDS.
+
+
+![3tet](https://github.com/santoshbd67/scripts/assets/150413783/9561ba02-ff1b-49c6-a6db-96c027872b15)
+
