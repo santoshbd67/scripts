@@ -37,7 +37,7 @@ This guide will walk you through the steps to deploy a two-tier WordPress applic
 2. Install Apache: `sudo apt install apache2 -y`.
 3. Install php and required packages: `sudo apt install -y php libapache2-mod-php php-mysql  php-curl php-gd php-mbstring php-xml php-xmlrpc php-soap php-intl php-zip`.
 4. Create Virtual Host for website:
-  - `sudo mkdir /var/www/your_domain`
+  - ```sudo mkdir /var/www/wordpress```
   - `sudo chown -R $USER:$USER /var/www/your_domain`
   - Create the configuration file for your domain `sudo nano /etc/apache2/sites-available/your_domain.conf`.
   - Paste this configuration, and modify the required values
